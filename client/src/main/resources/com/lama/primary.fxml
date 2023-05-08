@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="540.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lama.PrimaryController">
+    <children>
+        <Button fx:id="signinBtn" layoutX="382.0" layoutY="302.0" mnemonicParsing="false" onAction="#SignInOP" onMouseExited="#ButtonUnDragOP" onMouseMoved="#ButtonDragOP" prefHeight="25.0" prefWidth="90.0" styleClass="regular-button" stylesheets="@../../style.css" text="Sign In" textFill="#67b557">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Button>
+        <TextField fx:id="idTxt" layoutX="179.0" layoutY="187.0" prefHeight="31.0" prefWidth="182.0" promptText="ID Number" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+        <TextField fx:id="passwordTxt" layoutX="179.0" layoutY="240.0" prefHeight="31.0" prefWidth="182.0" promptText="PassWord" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+        <Label layoutX="39.0" layoutY="352.0" prefHeight="43.0" prefWidth="410.0" text="By logging in to the system, I confirm that I have read and agree to &#10;the">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <Hyperlink layoutX="57.0" layoutY="371.0" onAction="#DisclaimerOP" text="Disclaimer">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Hyperlink>
+        <Label layoutX="238.0" layoutY="38.0" text="Sign In" textFill="#67b557">
+            <font>
+                <Font name="System Bold Italic" size="17.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="typeField" layoutX="195.0" layoutY="99.0" prefWidth="150.0" promptText="Account Type" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+        <ImageView fx:id="img1" fitHeight="19.0" fitWidth="21.0" layoutX="371.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="img2" fitHeight="19.0" fitWidth="21.0" layoutX="371.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="img3" fitHeight="19.0" fitWidth="21.0" layoutX="371.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="img4" fitHeight="19.0" fitWidth="21.0" layoutX="371.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="passLbl1" layoutX="181.0" layoutY="394.0" text="password must contain at least one" textFill="#9a0000" visible="false" />
+        <Label fx:id="passLbl2" layoutX="181.0" layoutY="411.0" text="digit and one character." textFill="#9a0000" visible="false" />
+      <Label layoutX="50.0" layoutY="193.0" text="ID Number" textFill="#67b557">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="247.0" text="Password" textFill="#67b557">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="timeTF" layoutX="436.0" layoutY="2.0" prefHeight="25.0" prefWidth="66.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <ImageView fitHeight="140.0" fitWidth="502.0" layoutX="13.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/logo-green.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>
