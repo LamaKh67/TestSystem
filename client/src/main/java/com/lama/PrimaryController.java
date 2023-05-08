@@ -143,6 +143,5 @@ public class PrimaryController {
 		}), new KeyFrame(Duration.seconds(1)));
 		clock.setCycleCount(Animation.INDEFINITE);
 		clock.play();
-		System.out.println("sdf");
 	}
 }
