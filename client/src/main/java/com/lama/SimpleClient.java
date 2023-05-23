@@ -15,11 +15,17 @@ public class SimpleClient extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		Message message = (Message) msg;
-		if(message.getMessage().equals("Error! we got an empty message")){
-			EventBus.getDefault().post(new ErrorEvent(message));
-		}else {
-			EventBus.getDefault().post(new ErrorEvent(message));
+		if(msg.getClass().equals(Message.class)){
+			Message message = (Message) msg;
+			if(message.getMessage().equals("Error! we got an empty message")) {
+				EventBus.getDefault().post(new ErrorEvent(message));
+			}else{
+				EventBus.getDefault().post(message);
+			}
+		}else if(msg.getClass().equals(Question.class)){
+			EventBus.getDefault().post((Question)msg);
+		}else{
+			System.out.println(msg);
 		}
 	}
 	

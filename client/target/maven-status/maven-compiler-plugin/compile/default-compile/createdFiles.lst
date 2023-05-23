@@ -2,8 +2,11 @@ com\lama\ocsf\AdaptableClient.class
 com\lama\Main.class
 com\lama\ocsf\ObservableSWRClient.class
 com\lama\SimpleChatClient.class
+com\lama\SecondaryController.class
 com\lama\PrimaryController.class
 com\lama\ocsf\ObservableClient.class
 com\lama\ErrorEvent.class
 com\lama\ocsf\AbstractClient.class
+com\lama\QuestionController.class
+com\lama\Question_createController.class
 com\lama\SimpleClient.class

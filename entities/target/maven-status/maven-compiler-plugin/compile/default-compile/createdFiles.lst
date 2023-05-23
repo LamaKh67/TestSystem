@@ -1,1 +1,8 @@
+com\lama\App.class
+com\lama\Course.class
+com\lama\Question.class
 com\lama\Message.class
+com\lama\Subject.class
+com\lama\Person.class
+com\lama\Student.class
+com\lama\Teacher.class

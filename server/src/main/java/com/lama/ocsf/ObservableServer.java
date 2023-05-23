@@ -298,7 +298,7 @@ public class ObservableServer extends Observable
    *
    * @param message The message received from the client.
    * @param client The connection to the client.
-   * @see com.lloseng.ocsf.server.ObservableOriginatorServer
+   * @see com.lama.ocsf.ObservableOriginatorServer
    */
   protected synchronized void handleMessageFromClient
     (Object message, ConnectionToClient client)

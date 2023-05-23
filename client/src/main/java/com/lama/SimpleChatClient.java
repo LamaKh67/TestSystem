@@ -29,10 +29,10 @@ public class SimpleChatClient extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-    	EventBus.getDefault().register(this);
+//    	EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        scene = new Scene(loadFXML("primary"));
+        scene = new Scene(loadFXML("secondary"));
         // Setting the title and the icon behind the title.
         stage.setTitle("TestSystem");
         URL url = getClass().getResource("/images/icon.png");
