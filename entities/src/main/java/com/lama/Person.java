@@ -3,9 +3,12 @@ package com.lama;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "people")
-public abstract class Person {
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

@@ -25,14 +25,16 @@ import org.greenrobot.eventbus.Subscribe;
 public class SimpleChatClient extends Application {
 
     private static Scene scene;
+    public static Stage stage;
     private SimpleClient client;
 
     @Override
     public void start(Stage stage) throws IOException {
 //    	EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
+        SimpleChatClient.stage = stage;
     	client.openConnection();
-        scene = new Scene(loadFXML("secondary"));
+        scene = new Scene(loadFXML("primary"));
         // Setting the title and the icon behind the title.
         stage.setTitle("TestSystem");
         URL url = getClass().getResource("/images/icon.png");
@@ -44,8 +46,10 @@ public class SimpleChatClient extends Application {
         stage.getIcons().add(icon);
         Label titleLabel = new Label("Title");
         titleLabel.setGraphic(imageView);
-        stage.setScene(scene);
-        stage.show();
+        if(EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
+        SimpleChatClient.stage.setScene(scene);
+        SimpleChatClient.stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {

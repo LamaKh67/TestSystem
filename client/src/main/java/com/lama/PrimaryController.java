@@ -13,9 +13,10 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -25,15 +26,17 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+
+import static com.lama.SimpleClient.getClient;
 
 public class PrimaryController {
 	@FXML
@@ -43,10 +46,7 @@ public class PrimaryController {
 	private TextField idTxt;
 
 	@FXML
-	private TextField passwordTxt;
-
-	@FXML
-	private ComboBox<?> typeField;
+	private PasswordField passwordTxt;
 
 	@FXML
 	private ImageView img1;
@@ -70,6 +70,9 @@ public class PrimaryController {
 	private TextField timeTF;
 
 	private int msgId;
+
+	@FXML
+	private Label wrongLbl;
 
 	@FXML
 	void ButtonDragOP(MouseEvent event) {
@@ -107,8 +110,86 @@ public class PrimaryController {
 
 	@FXML
 	void SignInOP(ActionEvent event) throws IOException {
-		System.out.println("ghgj");
-		SimpleClient.getClient().sendToServer(new Message(5, "sfkgkd"));
+		if(!EventBus.getDefault().isRegistered(this))
+			EventBus.getDefault().register(this);
+		getClient().sendToServer(new Message(5, "SignIn#"
+				+ idTxt.getText() + "#" + passwordTxt.getText()));
+	}
+
+	@Subscribe
+	public void onMessage(Message message){
+		Platform.runLater(() -> {
+			if(message.getMessage().equals("User already signed in!"))
+				wrongLbl.setText(message.getMessage());
+			wrongLbl.setVisible(true);
+			if (EventBus.getDefault().isRegistered(this))
+				EventBus.getDefault().unregister(this);
+		});
+	}
+
+	@Subscribe
+	public void openPage(Person user) {
+		Platform.runLater(() -> {
+			if(EventBus.getDefault().isRegistered(this))
+				EventBus.getDefault().unregister(this);
+			if (user instanceof Teacher) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("secondary.fxml"));
+				Parent root = null;
+				try {
+					root = loader.load();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+
+				SecondaryController page = loader.getController();
+				page.setData((Teacher) user);
+
+				Scene newscene = new Scene(root);
+				if(EventBus.getDefault().isRegistered(this))
+					EventBus.getDefault().unregister(this);
+				SimpleChatClient.stage.setScene(newscene);
+				SimpleChatClient.stage.setMaximized(true);
+				SimpleChatClient.stage.show();
+			}
+			else if (user instanceof Student) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("student.fxml"));
+				Parent root = null;
+				try {
+					root = loader.load();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+
+				StudentController page = loader.getController();
+				page.setData((Student) user);
+
+				Scene newscene = new Scene(root);
+				if(EventBus.getDefault().isRegistered(this))
+					EventBus.getDefault().unregister(this);
+				SimpleChatClient.stage.setScene(newscene);
+				SimpleChatClient.stage.setMaximized(true);
+				SimpleChatClient.stage.show();
+			}
+			else if (user instanceof Manager) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("manager.fxml"));
+				Parent root = null;
+				try {
+					root = loader.load();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+
+				ManagerController page = loader.getController();
+				page.setData((Manager) user);
+
+				Scene newscene = new Scene(root);
+				if(EventBus.getDefault().isRegistered(this))
+					EventBus.getDefault().unregister(this);
+				SimpleChatClient.stage.setScene(newscene);
+				SimpleChatClient.stage.setMaximized(true);
+				SimpleChatClient.stage.show();
+			}
+		});
 	}
 
 	@Subscribe
@@ -129,7 +210,6 @@ public class PrimaryController {
 
 	@FXML
 	void initialize() {
-		EventBus.getDefault().register(this);
 		msgId=0;
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 		LocalTime startTime = LocalTime.now().plusHours(1); // Start from 1 hour from now

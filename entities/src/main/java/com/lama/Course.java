@@ -25,10 +25,15 @@ public class Course implements Serializable {
     @JoinColumn(name = "course_teacher_id")
     private Teacher course_teacher;
 
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "courses")
     private List<Question> questions;
 
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany
+    @JoinTable(
+            name = "courses_students",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
     private List<Student> students;
 
     public Course(String name, Subject course_subject) {
@@ -50,6 +55,10 @@ public class Course implements Serializable {
         this.questions.add(question);
     }
 
+    public void addStudent(Student student){
+        this.students.add(student);
+    }
+
     public int getId() {
         return id;
     }
@@ -68,5 +77,9 @@ public class Course implements Serializable {
 
     public void setCourse_subject(Subject course_subject) {
         this.course_subject = course_subject;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
     }
 }

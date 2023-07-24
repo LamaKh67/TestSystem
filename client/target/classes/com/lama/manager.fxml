@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lama.ManagerController">
+    <children>
+        <Button layoutX="668.0" layoutY="22.0" mnemonicParsing="false" onAction="#signOutOP" styleClass="shopping-online-card" stylesheets="@../../style.css" text="Sign Out" />
+      <Button layoutX="373.0" layoutY="22.0" mnemonicParsing="false" onAction="#subHistogramOP" styleClass="shopping-online-card" stylesheets="@../../style.css" text="Show Subject Histogram" />
+      <ChoiceBox fx:id="subjectsChoice" layoutX="271.0" layoutY="22.0" prefHeight="25.0" prefWidth="86.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <BarChart fx:id="histogram" layoutX="123.0" layoutY="119.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+    </children>
+</AnchorPane>

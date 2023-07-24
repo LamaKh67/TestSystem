@@ -2,12 +2,19 @@ package com.lama;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Message implements Serializable {
     int id;
     LocalDateTime timeStamp;
     String message;
     String data;
+
+    List<Object> objects = new LinkedList<>();
+
+    public HashMap<String, Integer> hist = new HashMap<>();
 
     public Message(int id, LocalDateTime timeStamp, String message) {
         this.id = id;

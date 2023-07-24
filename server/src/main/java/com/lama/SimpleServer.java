@@ -21,6 +21,7 @@ import javax.persistence.criteria.Root;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SimpleServer extends AbstractServer {
@@ -40,6 +41,7 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(Subject.class);
 		configuration.addAnnotatedClass(Student.class);
 		configuration.addAnnotatedClass(Teacher.class);
+		configuration.addAnnotatedClass(Manager.class);
 		ServiceRegistry serviceRegistry = (new StandardServiceRegistryBuilder())
 				.applySettings(configuration.getProperties()).build();
 		return configuration.buildSessionFactory(serviceRegistry);
@@ -68,6 +70,85 @@ public class SimpleServer extends AbstractServer {
 			if (request.isBlank()) {
 				message.setMessage("Error! we got an empty message");
 				client.sendToClient(message);
+			}
+			else if(request.startsWith("SignIn#")){
+				List<Teacher> teachers = null;
+				List<Student> students = null;
+				List<Manager> managers = null;
+				String[] details = request.split("#");
+				int id = Integer.parseInt(details[1]);
+				String password = details[2];
+				boolean found = false;
+				teachers = getAll(Teacher.class, newsession);
+				for(Teacher user:teachers){
+					if (user.getId() == id && user.getPassword().equals(password)){
+						if(user.isLogged()){
+							message.setMessage("User already signed in!");
+							client.sendToClient(message);
+						}else {
+							user.setLogged(true);
+							newsession.update(user);
+							newsession.flush();
+							client.sendToClient(user);
+						}
+						found = true;
+						break;
+					}
+				}
+				students = getAll(Student.class, newsession);
+				for(Student user:students) {
+					if (user.getId() == id && user.getPassword().equals(password)) {
+						if(user.isLogged()){
+							message.setMessage("User already signed in!");
+							client.sendToClient(message);
+						}else {
+							user.setLogged(true);
+							newsession.update(user);
+							newsession.flush();
+							client.sendToClient(user);
+						}
+						found = true;
+						break;
+					}
+				}
+				managers = getAll(Manager.class, newsession);
+				for(Manager user:managers) {
+					if (user.getId() == id && user.getPassword().equals(password)) {
+                        List<Subject> subjects = getAll(Subject.class, newsession);
+                        for(Subject subject:subjects){
+                            user.subjects.add(subject);
+                        }
+						if(user.isLogged()){
+							message.setMessage("User already signed in!");
+							client.sendToClient(message);
+						}else {
+							user.setLogged(true);
+							newsession.update(user);
+							newsession.flush();
+							client.sendToClient(user);
+						}
+						found = true;
+						break;
+					}
+				}
+				if(!found){
+					client.sendToClient(new Message(55, "ID or password are incorrect."));
+				}
+			}
+			else if(request.startsWith("signOut#")){
+				List<Person> people = null;
+				String[] content = request.split("#");
+				int id = Integer.parseInt(content[1]);
+
+				people = getAll(Person.class, newsession);
+
+				for(Person user:people){
+					if(user.getId() == id){
+						user.setLogged(false);
+						newsession.update(user);
+						newsession.flush();
+					}
+				}
 			}
 			else if(request.startsWith("showQuestion:")){
 				String question_number = request.substring(13);
@@ -117,10 +198,59 @@ public class SimpleServer extends AbstractServer {
 						sendToAllClients(question);
 				}
 			}
+			else if(request.startsWith("add_question:")){
+				String[] contents = request.split("#");
+				Question question = new Question(contents[2], contents[1], contents[3], contents[4], contents[5], contents[6],
+						contents[7], Integer.parseInt(contents[8]));
+				List<Course> courses = getAll(Course.class, newsession);
+				for(int i = 9; i < contents.length; i++){
+					for(Course course:courses){
+						if(course.getId() == Integer.parseInt(contents[i])){
+							System.out.println(course.getId());
+							course.addQuestion(question);
+							question.addCourse(course);
+							newsession.update(course);
+						}
+					}
+				}
+				newsession.save(question);
+				newsession.flush();
+			}
+			else if(request.startsWith("getSubjectHistogram#")){
+				String[] contents = request.split("#");
+				int id = Integer.parseInt(contents[1]);
+				Message message1 = new Message(117, "getSubjectHistogram");
+				List<Course> courses = getAll(Course.class, newsession);
+				for(Course course:courses){
+					if(course.getCourse_subject().getId() == id)
+						message1.hist.put(course.getName(), course.getQuestions().size());
+				}
+				client.sendToClient(message1);
+			}
+			else if(request.equals("get_subjects")){
+				List<Subject> subjects = getAll(Subject.class, newsession);
+				Message message1 = new Message(200, "get_subjects");
+				for(Subject subject:subjects){
+					message1.objects.add(subject);
+				}
+				client.sendToClient(message1);
+			}
 			//we got a message from client requesting to echo Hello, so we will send back to client Hello world!
-			else if(request.startsWith("echo Hello")){
-				message.setMessage("Hello World!");
-				client.sendToClient(message);
+			else if(request.startsWith("correct_answers:#")){
+				String[] ids = request.split("#");
+				String str = "";
+				List<Question> questions = getAll(Question.class, newsession);
+				for(int i = 1; i < ids.length; i++){
+					int id = Integer.parseInt(ids[i]);
+					for(Question question:questions){
+						if(question.getId() == id){
+							str += question.getCorrect_answer() + "#";
+							break;
+						}
+					}
+				}
+				Message message1 = new Message(206, str);
+				client.sendToClient(message1);
 			}
 			else if(request.startsWith("send Submitters IDs")){
 				//add code here to send submitters IDs to client

@@ -1,55 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lama.Question_createController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="343.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lama.Question_createController">
    <children>
-      <Label layoutX="28.0" layoutY="29.0" text="The Question:">
+      <Label layoutX="28.0" layoutY="29.0" stylesheets="@../../style.css" text="The Question:" textFill="#67b557">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="68.0" text="Instructions:">
+      <Label layoutX="28.0" layoutY="68.0" stylesheets="@../../style.css" text="Instructions:" textFill="#67b557">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="111.0" text="Answer 1:">
+      <Label layoutX="28.0" layoutY="111.0" stylesheets="@../../style.css" text="Answer 1:" textFill="#67b557">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="145.0" text="Answer 2:">
+      <Label layoutX="28.0" layoutY="145.0" stylesheets="@../../style.css" text="Answer 2:" textFill="#67b557">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="180.0" text="Answer 3:">
+      <Label layoutX="28.0" layoutY="180.0" stylesheets="@../../style.css" text="Answer 3:" textFill="#67b557">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="217.0" text="Answer 4:">
+      <Label layoutX="28.0" layoutY="217.0" stylesheets="@../../style.css" text="Answer 4:" textFill="#67b557">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
-      <TextField fx:id="questionTxt" layoutX="148.0" layoutY="26.0" prefHeight="25.0" prefWidth="333.0" />
-      <TextField fx:id="instTxt" layoutX="148.0" layoutY="65.0" prefHeight="25.0" prefWidth="333.0" />
-      <TextField fx:id="ans1Txt" layoutX="148.0" layoutY="108.0" prefHeight="25.0" prefWidth="333.0" />
-      <TextField fx:id="ans2Txt" layoutX="148.0" layoutY="142.0" prefHeight="25.0" prefWidth="333.0" />
-      <TextField fx:id="ans3Txt" layoutX="148.0" layoutY="177.0" prefHeight="25.0" prefWidth="333.0" />
-      <TextField fx:id="ans4Txt" layoutX="148.0" layoutY="214.0" prefHeight="25.0" prefWidth="333.0" />
-      <Button fx:id="saveBtn" layoutX="424.0" layoutY="246.0" mnemonicParsing="false" onAction="#saveChanges" text="Save Changes" />
-      <TextField fx:id="correctChoice" layoutX="148.0" layoutY="246.0" prefHeight="25.0" prefWidth="41.0" />
-      <Label layoutX="28.0" layoutY="249.0" text="Correct Choice:">
+      <TextField fx:id="questionTxt" layoutX="148.0" layoutY="26.0" prefHeight="25.0" prefWidth="333.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <TextField fx:id="instTxt" layoutX="148.0" layoutY="65.0" prefHeight="25.0" prefWidth="333.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <TextField fx:id="ans1Txt" layoutX="148.0" layoutY="108.0" prefHeight="25.0" prefWidth="333.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <TextField fx:id="ans2Txt" layoutX="148.0" layoutY="142.0" prefHeight="25.0" prefWidth="333.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <TextField fx:id="ans3Txt" layoutX="148.0" layoutY="177.0" prefHeight="25.0" prefWidth="333.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <TextField fx:id="ans4Txt" layoutX="148.0" layoutY="214.0" prefHeight="25.0" prefWidth="333.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <Button fx:id="saveBtn" layoutX="397.0" layoutY="243.0" mnemonicParsing="false" onAction="#saveChanges" styleClass="regular-button" stylesheets="@../../style.css" text="Save Changes" textFill="#67b557">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <TextField fx:id="correctChoice" layoutX="148.0" layoutY="246.0" prefHeight="25.0" prefWidth="41.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
+      <Label layoutX="28.0" layoutY="249.0" stylesheets="@../../style.css" text="Correct Choice:" textFill="#67b557">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
+      <ChoiceBox fx:id="coursesChoice" layoutX="102.0" layoutY="292.0" prefHeight="25.0" prefWidth="92.0" styleClass="shopping-online-card" stylesheets="@../../style.css" visible="false" />
+      <Label fx:id="courseslbl" layoutX="28.0" layoutY="295.0" stylesheets="@../../style.css" text="Courses:" textFill="#67b557" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="qNumlbl" layoutX="276.0" layoutY="295.0" stylesheets="@../../style.css" text="Question Number:" textFill="#67b557" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="qNum2" layoutX="446.0" layoutY="292.0" prefHeight="25.0" prefWidth="68.0" styleClass="shopping-online-card" stylesheets="@../../style.css" visible="false" />
+      <TextField fx:id="qNum1" layoutX="397.0" layoutY="292.0" prefHeight="25.0" prefWidth="41.0" styleClass="shopping-online-card" stylesheets="@../../style.css" visible="false" />
+      <Button fx:id="addBtn" layoutX="194.0" layoutY="292.0" mnemonicParsing="false" onAction="#addCourseOP" styleClass="shopping-online-card" stylesheets="@../../style.css" text="Add" visible="false" />
    </children>
 </AnchorPane>

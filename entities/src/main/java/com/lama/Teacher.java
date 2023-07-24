@@ -11,7 +11,7 @@ public class Teacher extends Person implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "course_teacher")
     private List<Course> courses;
 
-    public Teacher(String id, String name, String password) {
+    public Teacher(String name, String password) {
         super(name, password);
         this.courses = new LinkedList<Course>();
     }
@@ -26,5 +26,9 @@ public class Teacher extends Person implements Serializable {
 
     public String accountType(){
         return "teacher";
+    }
+
+    public List<Course> getCourses(){
+        return courses;
     }
 }

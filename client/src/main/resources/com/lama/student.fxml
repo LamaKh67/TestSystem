@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lama.StudentController">
+    <children>
+        <Button fx:id="showBtn" layoutX="27.0" layoutY="22.0" mnemonicParsing="false" onAction="#showCoursesOP" styleClass="shopping-online-card" stylesheets="@../../style.css" text="Show Courses" />
+        <Button layoutX="668.0" layoutY="22.0" mnemonicParsing="false" onAction="#signOutOP" styleClass="shopping-online-card" stylesheets="@../../style.css" text="Sign Out" />
+      <GridPane fx:id="coursesGrid" layoutX="27.0" layoutY="82.0" prefHeight="150.0" prefWidth="430.0">
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+    </children>
+</AnchorPane>
