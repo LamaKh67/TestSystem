@@ -121,6 +121,8 @@ public class PrimaryController {
 		Platform.runLater(() -> {
 			if(message.getMessage().equals("User already signed in!"))
 				wrongLbl.setText(message.getMessage());
+			else if(message.getMessage().equals("ID or password are incorrect."))
+				wrongLbl.setText(message.getMessage());
 			wrongLbl.setVisible(true);
 			if (EventBus.getDefault().isRegistered(this))
 				EventBus.getDefault().unregister(this);
