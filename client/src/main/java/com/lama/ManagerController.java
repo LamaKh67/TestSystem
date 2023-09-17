@@ -34,6 +34,8 @@ public class ManagerController {
 
     private Manager manager;
 
+    private Message final_message = new Message(202, "");
+
     public void setData(Manager manager) {
         this.manager = manager;
         for(Subject subject:manager.subjects){
@@ -45,6 +47,8 @@ public class ManagerController {
     @FXML
     void subHistogramOP(ActionEvent event) throws IOException {
         int ind = 0;
+        if(subjectsChoice.getValue() == null)
+            return;
         String subject = subjectsChoice.getValue();
         while(subject.charAt(ind) != '(')
             ind++;
@@ -52,12 +56,23 @@ public class ManagerController {
         String subject_id = subject.substring(ind, subject.length()-1);
         if(!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
-        SimpleClient.getClient().sendToServer(new Message(201, "getSubjectHistogram#" + subject_id));
+        final_message = new Message(201, "getSubjectHistogram#" + subject_id);
+        SimpleClient.getClient().sendToServer(final_message);
     }
 
     @Subscribe
     public void showSubjectHistogram(Message message){
         Platform.runLater(() -> {
+            if(message.getMessage().equals("refresh")){
+                if(!final_message.getMessage().equals("")) {
+                    try {
+                        SimpleClient.getClient().sendToServer(final_message);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                return;
+            }
             histogram.getData().clear();
             CategoryAxis temp = (CategoryAxis) histogram.getXAxis();
             temp.getCategories().clear();

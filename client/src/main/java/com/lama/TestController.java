@@ -55,7 +55,7 @@ public class TestController {
         this.course = course;
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        LocalTime startTime = LocalTime.now().plusMinutes(1);
+        LocalTime startTime = LocalTime.now().plusMinutes(2);
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalTime currentTime = LocalTime.now();
             long secondsRemaining = ChronoUnit.SECONDS.between(currentTime, startTime);
@@ -134,6 +134,9 @@ public class TestController {
     @Subscribe
     public void showAnswers(Message message){
         Platform.runLater(() -> {
+            if(message.getMessage().equals("refresh")){
+                return;
+            }
             String[] answers = message.getMessage().split("#");
             int i = 0, correct = 0;
             for (QuestionController questionController : questionControllers) {

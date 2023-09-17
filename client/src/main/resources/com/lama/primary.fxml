@@ -49,7 +49,6 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="timeTF" layoutX="439.0" layoutY="14.0" prefHeight="25.0" prefWidth="66.0" styleClass="shopping-online-card" stylesheets="@../../style.css" />
       <ImageView fitHeight="140.0" fitWidth="502.0" layoutX="13.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/logo-green.png" />

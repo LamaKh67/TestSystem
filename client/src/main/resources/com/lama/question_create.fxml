@@ -55,19 +55,26 @@
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="coursesChoice" layoutX="102.0" layoutY="292.0" prefHeight="25.0" prefWidth="92.0" styleClass="shopping-online-card" stylesheets="@../../style.css" visible="false" />
-      <Label fx:id="courseslbl" layoutX="28.0" layoutY="295.0" stylesheets="@../../style.css" text="Courses:" textFill="#67b557" visible="false">
-         <font>
-            <Font name="System Bold Italic" size="13.0" />
-         </font>
-      </Label>
-      <Label fx:id="qNumlbl" layoutX="276.0" layoutY="295.0" stylesheets="@../../style.css" text="Question Number:" textFill="#67b557" visible="false">
+      <ChoiceBox fx:id="coursesChoice" layoutX="240.0" layoutY="292.0" onMouseClicked="#courseChoiceOP" prefHeight="25.0" prefWidth="92.0" styleClass="shopping-online-card" stylesheets="@../../style.css" visible="false" />
+      <Label fx:id="courseslbl" layoutX="181.0" layoutY="295.0" stylesheets="@../../style.css" text="Courses:" textFill="#67b557" visible="false">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
       <TextField fx:id="qNum2" layoutX="446.0" layoutY="292.0" prefHeight="25.0" prefWidth="68.0" styleClass="shopping-online-card" stylesheets="@../../style.css" visible="false" />
       <TextField fx:id="qNum1" layoutX="397.0" layoutY="292.0" prefHeight="25.0" prefWidth="41.0" styleClass="shopping-online-card" stylesheets="@../../style.css" visible="false" />
-      <Button fx:id="addBtn" layoutX="194.0" layoutY="292.0" mnemonicParsing="false" onAction="#addCourseOP" styleClass="shopping-online-card" stylesheets="@../../style.css" text="Add" visible="false" />
+      <Button fx:id="addBtn" layoutX="340.0" layoutY="292.0" mnemonicParsing="false" onAction="#addCourseOP" styleClass="shopping-online-card" stylesheets="@../../style.css" text="Add" visible="false" />
+      <Label fx:id="errorLbl" layoutX="28.0" layoutY="319.0" text="jkjn" textFill="#b20000" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="subjectlbl" layoutX="27.0" layoutY="295.0" stylesheets="@../../style.css" text="Subject:" textFill="#67b557" visible="false">
+         <font>
+            <Font name="System Bold Italic" size="13.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="subjectChoice" layoutX="77.0" layoutY="292.0" onMouseClicked="#subChoiceOP" prefHeight="25.0" prefWidth="92.0" styleClass="shopping-online-card" stylesheets="@../../style.css" visible="false" />
+      <Label fx:id="addedCrs" layoutX="390.0" layoutY="296.0" prefHeight="17.0" prefWidth="514.0" stylesheets="@../../style.css" textFill="#67b557" />
    </children>
 </AnchorPane>

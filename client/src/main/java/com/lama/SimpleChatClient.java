@@ -34,6 +34,7 @@ public class SimpleChatClient extends Application {
     	client = SimpleClient.getClient();
         SimpleChatClient.stage = stage;
     	client.openConnection();
+        client.sendToServer(new Message(1, "#addClient"));
         scene = new Scene(loadFXML("primary"));
         // Setting the title and the icon behind the title.
         stage.setTitle("TestSystem");

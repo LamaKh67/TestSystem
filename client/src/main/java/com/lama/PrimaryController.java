@@ -66,9 +66,6 @@ public class PrimaryController {
 	@FXML
 	private Label passLbl2;
 
-	@FXML
-	private TextField timeTF;
-
 	private int msgId;
 
 	@FXML
@@ -119,6 +116,9 @@ public class PrimaryController {
 	@Subscribe
 	public void onMessage(Message message){
 		Platform.runLater(() -> {
+			if(message.getMessage().equals("refresh")){
+				return;
+			}
 			if(message.getMessage().equals("User already signed in!"))
 				wrongLbl.setText(message.getMessage());
 			else if(message.getMessage().equals("ID or password are incorrect."))
@@ -213,17 +213,5 @@ public class PrimaryController {
 	@FXML
 	void initialize() {
 		msgId=0;
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-		LocalTime startTime = LocalTime.now().plusHours(1); // Start from 1 hour from now
-		Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-			LocalTime currentTime = LocalTime.now();
-			long secondsRemaining = ChronoUnit.SECONDS.between(currentTime, startTime);
-			if (secondsRemaining >= 0) { // Only update if countdown hasn't finished
-				LocalTime displayTime = LocalTime.ofSecondOfDay(secondsRemaining);
-				timeTF.setText(displayTime.format(dtf));
-			}
-		}), new KeyFrame(Duration.seconds(1)));
-		clock.setCycleCount(Animation.INDEFINITE);
-		clock.play();
 	}
 }
