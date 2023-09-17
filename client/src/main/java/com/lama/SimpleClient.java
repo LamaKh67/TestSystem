@@ -5,6 +5,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import com.lama.ocsf.AbstractClient;
 
+import java.io.IOException;
+
 public class SimpleClient extends AbstractClient {
 	
 	private static SimpleClient client = null;
@@ -37,7 +39,7 @@ public class SimpleClient extends AbstractClient {
 		}
 	}
 	
-	public static SimpleClient getClient() {
+	public static SimpleClient getClient() throws IOException {
 		if (client == null) {
 			client = new SimpleClient("localhost", 3000);
 		}

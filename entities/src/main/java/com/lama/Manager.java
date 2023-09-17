@@ -1,26 +1,33 @@
 package com.lama;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@PrimaryKeyJoinColumn(name="managerID")
+@PrimaryKeyJoinColumn(name = "managerID")
+@NoArgsConstructor
 public class Manager extends Person implements Serializable {
+    private static Manager instance;
 
     @Transient
     public List<Subject> subjects = new LinkedList<Subject>();
 
-    public Manager(String name, String password) {
+    private Manager(String name, String password) {
         super(name, password);
     }
 
-    public Manager() {
-        super();
+    public static Manager getInstance() {
+        if (instance == null) {
+            instance = new Manager("Malki Grossman", "malki");
+        }
+        return instance;
     }
 
-    public String accountType(){
+    public String accountType() {
         return "manager";
     }
 }

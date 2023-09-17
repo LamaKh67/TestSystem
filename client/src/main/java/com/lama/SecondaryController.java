@@ -2,6 +2,7 @@ package com.lama;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -12,9 +13,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -32,6 +35,12 @@ public class SecondaryController {
     private URL location;
 
     @FXML
+    private ChoiceBox<String> subjectChoice;
+
+    @FXML
+    private ChoiceBox<String> courseChoice;
+
+    @FXML
     private GridPane questionsGrid;
 
     @FXML
@@ -44,13 +53,33 @@ public class SecondaryController {
 
     int message_id = 10;
 
-    public void setData(Teacher teacher){
-        this.teacher = teacher;
-    }
+    private boolean first_enterance = true;
 
-//    @FXML
-//    void initialize() {
-//    }
+    @Subscribe
+    public void setData(Teacher teacher){
+        Platform.runLater(() -> {
+        if(!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+        this.teacher = teacher;
+        HashMap<String, Integer> hashMap = new HashMap<>();
+
+        for(int i = 0; i < teacher.getCourses().size(); i++){
+            String sub_name = teacher.getCourses().get(i).getCourse_subject().getName();
+            if(hashMap.containsKey(sub_name))
+                continue;
+            subjectChoice.getItems().add(sub_name);
+            hashMap.put(sub_name, i);
+        }
+        if(!first_enterance) {
+            try{
+                showQuestions(new ActionEvent());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        first_enterance = false;
+    });
+    }
 
     @FXML
     void addQuestion(ActionEvent event) throws IOException {
@@ -75,32 +104,12 @@ public class SecondaryController {
         stage.show();
     }
 
-    @Subscribe
-    public void onAddQuestion(Message message) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("question_create.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Question_createController itemController = fxmlLoader.getController();
-        itemController.setData(teacher.getCourses());
-        Stage stage = new Stage();
-        // Setting the title and the icon behind the title.
-        stage.setTitle("TestSystem");
-        URL url = getClass().getResource("/images/icon.png");
-        String path = url.toExternalForm();
-        Image icon = new Image(path);
-        ImageView imageView = new ImageView(icon);
-        imageView.setFitWidth(16);
-        imageView.setFitHeight(16);
-        stage.getIcons().add(icon);
-        Label titleLabel = new Label("Title");
-        titleLabel.setGraphic(imageView);
-        stage.setScene(scene);
-        stage.show();
-    }
-
     @FXML
     void showQuestions(ActionEvent event) throws IOException {
         for(int i = 0; i < teacher.getCourses().size(); i++) {
+            if(courseChoice.getValue() == null ||
+                    !teacher.getCourses().get(i).getName().equals(courseChoice.getValue().toString()))
+                continue;
             Message message = new Message(6,"");
             List<Question> questionList = teacher.getCourses().get(i).getQuestions();
             StringBuffer questions = new StringBuffer();
@@ -114,10 +123,34 @@ public class SecondaryController {
         }
     }
 
+    @FXML
+    void updateCourses(MouseEvent event) {
+        if (courseChoice.getItems().size() > 0)
+            courseChoice.getItems().clear();
+        for(int i = 0; i < teacher.getCourses().size(); i++){
+            String sub_name = teacher.getCourses().get(i).getCourse_subject().getName();
+            if(sub_name.equals(subjectChoice.getValue().toString())) {
+                courseChoice.getItems().add(teacher.getCourses().get(i).getName());
+            }
+        }
+        courseChoice.hide();
+        courseChoice.show();
+    }
+
     @Subscribe
     public void onShowQuestionsNumbers(Message numbers){
         System.out.println(numbers.getMessage());
         Platform.runLater(() -> {
+            if(numbers.getMessage().equals("refresh")){
+                try {
+                    SimpleClient.getClient().sendToServer(new Message(302,
+                            "update_teacher#" + Integer.toString(teacher.getId())));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return;
+            }
+            questionNumbers.getChildren().clear();
         String str = numbers.getMessage();
         String[] question_numbers = str.split("#");
 

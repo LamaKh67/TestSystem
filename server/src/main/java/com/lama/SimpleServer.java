@@ -71,6 +71,10 @@ public class SimpleServer extends AbstractServer {
 				message.setMessage("Error! we got an empty message");
 				client.sendToClient(message);
 			}
+			else if(request.equals("#addClient")){
+				SubscribedClient conn = new SubscribedClient(client);
+				SubscribersList.add(conn);
+			}
 			else if(request.startsWith("SignIn#")){
 				List<Teacher> teachers = null;
 				List<Student> students = null;
@@ -215,6 +219,7 @@ public class SimpleServer extends AbstractServer {
 				}
 				newsession.save(question);
 				newsession.flush();
+				sendToAllClients(new Message(301, "refresh"));
 			}
 			else if(request.startsWith("getSubjectHistogram#")){
 				String[] contents = request.split("#");
@@ -252,8 +257,16 @@ public class SimpleServer extends AbstractServer {
 				Message message1 = new Message(206, str);
 				client.sendToClient(message1);
 			}
-			else if(request.startsWith("send Submitters IDs")){
-				//add code here to send submitters IDs to client
+			else if(request.startsWith("update_teacher#")){
+				String[] arr = request.split("#");
+				int teacher_id = Integer.parseInt(arr[1]);
+				List<Teacher> teachers = getAll(Teacher.class, newsession);
+				for(Teacher teacher:teachers){
+					if(teacher.getId() == teacher_id) {
+						client.sendToClient(teacher);
+						break;
+					}
+				}
 			}
 			else if (request.startsWith("send Submitters")){
 				//add code here to send submitters names to client
@@ -292,8 +305,11 @@ public class SimpleServer extends AbstractServer {
 
 	public void sendToAllClients(Message message) {
 		try {
+			int i = 1;
 			for (SubscribedClient SubscribedClient : SubscribersList) {
+				System.out.println("client " + i);
 				SubscribedClient.getClient().sendToClient(message);
+				i++;
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
